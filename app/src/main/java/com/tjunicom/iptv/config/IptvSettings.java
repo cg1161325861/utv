@@ -12,12 +12,12 @@ public class IptvSettings {
 
     /**
      * 天津联通默认网络参数（依据 gabacai/tj-unicom-iptv 的 iptv.php 与天津实际组播网段）：
-     * - 组播地址为 udp://225.1.1.x:5002 / udp://225.1.2.x:5002（不是北京的 rtp://239.3.1.x:800x）
+     * - 组播是 RTP 封装：rtp://225.1.1.x:5002 / rtp://225.1.2.x:5002（tcpdump 实测 1328=12B RTP+7x188 TS）
      * - udpxy 转单播默认 http://192.168.6.1:5002/udp/ip:port
      */
     public static final String DEFAULT_UDPXY_ADDR = "192.168.6.1:5002";
     public static final String DEFAULT_SCAN_SUBNET = "225.1.1";
-    public static final String DEFAULT_LAST_CHANNEL_URL = "udp://225.1.2.57:5002";
+    public static final String DEFAULT_LAST_CHANNEL_URL = "rtp://225.1.1.111:5002";
 
     // 流播放传输模式
     public static final int STREAM_MODE_UDPXY = 0;          // 路由器/软路由 udpxy 组播转单播 (如 http://192.168.2.1:8012/rtp/...)

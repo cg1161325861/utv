@@ -235,7 +235,7 @@ public class MulticastScannerEngine {
                         if (known != null) {
                             channel = known;
                         } else {
-                            String rawUrl = "udp://" + ip + ":" + port;
+                            String rawUrl = "rtp://" + ip + ":" + port;
                             String extInf = String.format(Locale.US,
                                     "#EXTINF:-1 tvg-id=\"\" tvg-name=\"\" tvg-logo=\"\" group-title=\"动态扫描发现\",联通组播_%s_%d[%d][%s]",
                                     ip, port, 500 + idx, probe.resolutionFlag);
@@ -457,7 +457,7 @@ public class MulticastScannerEngine {
             return res;
         }
         long t0 = System.currentTimeMillis();
-        String rawRtpUrl = "udp://" + ip + ":" + port;
+        String rawRtpUrl = "rtp://" + ip + ":" + port;
 
         // 优先根据当前配置模式探测：若配置了 udpxy，则探测 HTTP 流；否则探测 IGMP MulticastSocket
         int mode = settings.getStreamMode();

@@ -67,7 +67,7 @@
                     android:buttonTint="@color/md_theme_dark_primary"
                     android:focusable="true"
                     android:paddingHorizontal="8dp"
-                    android:text="池化下载器原生 IGMP 组播直连 (udp://225.1.x.x:5002)"
+                    android:text="池化下载器原生 IGMP 组播直连 (rtp://225.1.x.x:5002)"
                     android:textColor="@color/text_primary"
                     android:textSize="13sp" />
             </RadioGroup>
