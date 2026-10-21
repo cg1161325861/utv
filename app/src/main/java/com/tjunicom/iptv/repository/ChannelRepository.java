@@ -232,24 +232,34 @@ public class ChannelRepository {
     public synchronized List<String> getCategoryGroups() {
         List<String> categories = new ArrayList<>();
         categories.add(GROUP_ALL);
-        categories.add(GROUP_HD_CCTV);
-        categories.add(GROUP_HD_SATELLITE);
-        categories.add(GROUP_HD_TJ);
-        categories.add(GROUP_HD_IPTV);
-        categories.add(GROUP_4K);
-        categories.add(GROUP_KIDS);
-        categories.add(GROUP_SD_ALL);
+        // 固定分类只在确实有频道命中时才出现，避免空标签占位
+        String[] fixedGroups = {GROUP_HD_CCTV, GROUP_HD_SATELLITE, GROUP_HD_TJ, GROUP_HD_IPTV,
+                GROUP_4K, GROUP_KIDS, GROUP_SD_ALL};
+        for (String group : fixedGroups) {
+            if (hasChannelInCategory(group)) {
+                categories.add(group);
+            }
+        }
         categories.add(GROUP_DISCOVERED);
-        categories.add(GROUP_FAVORITES);
-        // 频道表里出现的自定义分组（如 天津/地方/影视/广播/SITV）自动追加为分类，避免收到列表里却无法按组浏览
+        // 频道表里出现的自定义分组（如 [高清]卫视、[标清]付费/其他）自动追加为分类
         for (IptvChannel ch : allChannels) {
             for (String g : ch.getGroups()) {
                 if (!TextUtils.isEmpty(g) && !categories.contains(g)) {
-                    categories.add(categories.size() - 1, g);
+                    categories.add(g);
                 }
             }
         }
+        categories.add(GROUP_FAVORITES);
         return categories;
+    }
+
+    private boolean hasChannelInCategory(String category) {
+        for (IptvChannel ch : allChannels) {
+            if (matchesCategory(ch, category)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public synchronized List<IptvChannel> filterChannels(String category, String searchQuery, boolean onlyAvailable) {

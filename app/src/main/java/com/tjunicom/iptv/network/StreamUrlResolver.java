@@ -49,8 +49,9 @@ public final class StreamUrlResolver {
         if (rawUrl.startsWith("rtp://")) {
             String target = rawUrl.substring("rtp://".length()).replace("@", "");
             return "http://" + cleanServer + "/rtp/" + target;
-        } else if (rawUrl.startsWith("udp://")) {
-            String target = rawUrl.substring("udp://".length()).replace("@", "");
+        } else if (rawUrl.startsWith("udp://") || rawUrl.startsWith("igmp://")) {
+            // 天津联通机顶盒原始表用 igmp://，等价于裸 UDP 组播；udpxy 侧统一走 /udp/
+            String target = rawUrl.substring(rawUrl.indexOf("://") + 3).replace("@", "");
             return "http://" + cleanServer + "/udp/" + target;
         }
         return rawUrl;
