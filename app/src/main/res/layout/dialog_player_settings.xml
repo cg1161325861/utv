@@ -121,38 +121,50 @@
 
                 <RadioButton
                     android:id="@+id/rb_core_ijk"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:background="@drawable/bg_badge"
                     android:buttonTint="@color/md_theme_dark_primary"
                     android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
                     android:paddingHorizontal="8dp"
-                    android:text="IjkMediaPlayer (池化)"
-                    android:textColor="@color/text_primary" />
+                    android:text="IJK 池化"
+                    android:textColor="@color/text_primary"
+                    android:textSize="12sp" />
 
                 <RadioButton
                     android:id="@+id/rb_core_exo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:background="@drawable/bg_badge"
                     android:buttonTint="@color/md_theme_dark_primary"
                     android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
                     android:paddingHorizontal="8dp"
-                    android:text="IjkExoPlayer"
-                    android:textColor="@color/text_primary" />
+                    android:text="IJK-Exo"
+                    android:textColor="@color/text_primary"
+                    android:textSize="12sp" />
 
                 <RadioButton
                     android:id="@+id/rb_core_android"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_badge"
                     android:buttonTint="@color/md_theme_dark_primary"
                     android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
                     android:paddingHorizontal="8dp"
-                    android:text="AndroidMediaPlayer"
-                    android:textColor="@color/text_primary" />
+                    android:text="Android 原生"
+                    android:textColor="@color/text_primary"
+                    android:textSize="12sp" />
             </RadioGroup>
 
             <CheckBox
@@ -212,7 +224,7 @@
                 android:buttonTint="@color/md_theme_dark_primary"
                 android:focusable="true"
                 android:paddingHorizontal="8dp"
-                android:text="包含项目仓库全部 215 个频道 (含标清及历史频道)"
+                android:text="包含项目仓库全部频道 (含标清及历史频道)"
                 android:textColor="@color/text_primary" />
         </LinearLayout>
 
