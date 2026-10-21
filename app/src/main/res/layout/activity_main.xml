@@ -8,7 +8,7 @@
     android:keepScreenOn="true">
 
     <!-- 1. ijkplayer 视频渲染主视图 -->
-    <com.bjunicom.iptv.player.IjkVideoView
+    <com.tjunicom.iptv.player.IjkVideoView
         android:id="@+id/ijk_video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -92,7 +92,7 @@
 
             <Button
                 android:id="@+id/btn_toggle_drawer"
-                style="@style/Widget.BjUnicomIptv.HudButton"
+                style="@style/Widget.TjUnicomIptv.HudButton"
                 android:layout_width="wrap_content"
                 android:layout_height="38dp"
                 android:drawableStart="@drawable/ic_flat_menu"
@@ -143,7 +143,7 @@
 
             <Button
                 android:id="@+id/btn_open_scanner"
-                style="@style/Widget.BjUnicomIptv.HudButton"
+                style="@style/Widget.TjUnicomIptv.HudButton"
                 android:layout_width="wrap_content"
                 android:layout_height="38dp"
                 android:layout_marginEnd="8dp"
@@ -160,7 +160,7 @@
 
             <Button
                 android:id="@+id/btn_open_settings"
-                style="@style/Widget.BjUnicomIptv.HudButton"
+                style="@style/Widget.TjUnicomIptv.HudButton"
                 android:layout_width="wrap_content"
                 android:layout_height="38dp"
                 android:drawableStart="@drawable/ic_flat_settings"
@@ -246,7 +246,7 @@
 
                 <Button
                     android:id="@+id/btn_prev_channel"
-                    style="@style/Widget.BjUnicomIptv.HudButton"
+                    style="@style/Widget.TjUnicomIptv.HudButton"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginEnd="6dp"
@@ -263,7 +263,7 @@
 
                 <Button
                     android:id="@+id/btn_next_channel"
-                    style="@style/Widget.BjUnicomIptv.HudButton"
+                    style="@style/Widget.TjUnicomIptv.HudButton"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginEnd="6dp"
@@ -280,7 +280,7 @@
 
                 <Button
                     android:id="@+id/btn_numpad_dialog"
-                    style="@style/Widget.BjUnicomIptv.HudButton"
+                    style="@style/Widget.TjUnicomIptv.HudButton"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginEnd="6dp"
@@ -297,7 +297,7 @@
 
                 <Button
                     android:id="@+id/btn_favorite_channel"
-                    style="@style/Widget.BjUnicomIptv.HudButton"
+                    style="@style/Widget.TjUnicomIptv.HudButton"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginEnd="6dp"
@@ -314,7 +314,7 @@
 
                 <Button
                     android:id="@+id/btn_aspect_ratio"
-                    style="@style/Widget.BjUnicomIptv.HudButton"
+                    style="@style/Widget.TjUnicomIptv.HudButton"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginEnd="6dp"
@@ -331,7 +331,7 @@
 
                 <Button
                     android:id="@+id/btn_reload_stream"
-                    style="@style/Widget.BjUnicomIptv.HudButton"
+                    style="@style/Widget.TjUnicomIptv.HudButton"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:drawableStart="@drawable/ic_flat_refresh"
@@ -367,7 +367,7 @@
                     android:ellipsize="middle"
                     android:fontFamily="monospace"
                     android:singleLine="true"
-                    android:text="组播源: rtp://239.3.1.129:8008 -> http://192.168.2.1:8012/rtp/239.3.1.129:8008"
+                    android:text="组播源: udp://225.1.2.57:5002 -> http://192.168.6.1:5002/udp/225.1.2.57:5002"
                     android:textColor="@color/text_secondary"
                     android:textSize="12sp" />
 
@@ -431,7 +431,7 @@
 
             <Button
                 android:id="@+id/btn_drawer_numpad"
-                style="@style/Widget.BjUnicomIptv.HudButton"
+                style="@style/Widget.TjUnicomIptv.HudButton"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginEnd="8dp"
@@ -471,7 +471,7 @@
             android:drawablePadding="10dp"
             android:focusable="true"
             android:focusableInTouchMode="false"
-            android:hint="搜索频道名 / 台号 / 239.3.1.x..."
+            android:hint="搜索频道名 / 台号 / 225.1.x..."
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:nextFocusDown="@id/rv_categories"

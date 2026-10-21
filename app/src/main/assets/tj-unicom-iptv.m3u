@@ -1,0 +1,177 @@
+#EXTM3U x-tvg-url="http://epg.51zmt.top:8000/e.xml.gz"
+#EXTINF:-1 tvg-id="" tvg-name="天津卫视" tvg-logo="" group-title="[高清]天津",天津卫视HD[1][高清]
+udp://225.1.1.111:5002
+#EXTINF:-1 tvg-id="" tvg-name="天津新闻" tvg-logo="" group-title="[高清]天津",天津新闻HD[2][高清]
+udp://225.1.1.130:5002
+#EXTINF:-1 tvg-id="" tvg-name="天津文艺" tvg-logo="" group-title="[高清]天津",天津文艺HD[3][高清]
+udp://225.1.1.131:5002
+#EXTINF:-1 tvg-id="" tvg-name="天津影视" tvg-logo="" group-title="[高清]天津",天津影视HD[4][高清]
+udp://225.1.1.149:5002
+#EXTINF:-1 tvg-id="" tvg-name="天津都市" tvg-logo="" group-title="[高清]天津",天津都市HD[5][高清]
+udp://225.1.1.128:5002
+#EXTINF:-1 tvg-id="" tvg-name="天津体育" tvg-logo="" group-title="[高清]天津",天津体育HD[6][高清]
+udp://225.1.1.122:5002
+#EXTINF:-1 tvg-id="" tvg-name="天津科教" tvg-logo="" group-title="[高清]天津",天津科教HD[7][高清]
+udp://225.1.1.129:5002
+#EXTINF:-1 tvg-id="" tvg-name="天津少儿" tvg-logo="" group-title="[高清]天津",天津少儿HD[8][高清]
+udp://225.1.1.125:5002
+#EXTINF:-1 tvg-id="" tvg-name="天津购物" tvg-logo="" group-title="[高清]天津",天津购物HD[9][高清]
+udp://225.1.1.151:5002
+#EXTINF:-1 tvg-id="" tvg-name="CCTV1" tvg-logo="" group-title="[高清]央视",CCTV-1综合HD[10][高清]
+udp://225.1.1.120:5002
+#EXTINF:-1 tvg-id="" tvg-name="CCTV2" tvg-logo="" group-title="[高清]央视",CCTV-2财经HD[11][高清]
+udp://225.1.1.133:5002
+#EXTINF:-1 tvg-id="" tvg-name="CCTV3" tvg-logo="" group-title="[高清]央视",CCTV-3综艺HD[12][高清]
+udp://225.1.1.158:5002
+#EXTINF:-1 tvg-id="" tvg-name="CCTV4" tvg-logo="" group-title="[高清]央视",CCTV-4中文国际HD[13][高清]
+udp://225.1.1.150:5002
+#EXTINF:-1 tvg-id="" tvg-name="CCTV-5+" tvg-logo="" group-title="[高清]央视",CCTV-5+体育赛事HD[14][高清]
+udp://225.1.1.121:5002
+#EXTINF:-1 tvg-id="" tvg-name="CCTV5" tvg-logo="" group-title="[高清]央视",CCTV-5体育HD[15][高清]
+udp://225.1.1.160:5002
+#EXTINF:-1 tvg-id="" tvg-name="CCTV6" tvg-logo="" group-title="[高清]央视",CCTV-6电影HD[16][高清]
+udp://225.1.1.195:5002
+#EXTINF:-1 tvg-id="" tvg-name="CCTV7" tvg-logo="" group-title="[高清]央视",CCTV-7军事农业HD[17][高清]
+udp://225.1.1.138:5002
+#EXTINF:-1 tvg-id="" tvg-name="CCTV8" tvg-logo="" group-title="[高清]央视",CCTV-8电视剧HD[18][高清]
+udp://225.1.1.196:5002
+#EXTINF:-1 tvg-id="" tvg-name="CCTV9" tvg-logo="" group-title="[高清]央视",CCTV-9纪录HD[19][高清]
+udp://225.1.1.119:5002
+#EXTINF:-1 tvg-id="" tvg-name="CCTV10" tvg-logo="" group-title="[高清]央视",CCTV-10科教HD[20][高清]
+udp://225.1.1.140:5002
+#EXTINF:-1 tvg-id="" tvg-name="CCTV11" tvg-logo="" group-title="[高清]央视",CCTV-11戏曲HD[21][高清]
+udp://225.1.2.192:5002
+#EXTINF:-1 tvg-id="" tvg-name="CCTV12" tvg-logo="" group-title="[高清]央视",CCTV-12社会与法HD[22][高清]
+udp://225.1.1.142:5002
+#EXTINF:-1 tvg-id="" tvg-name="CCTV13" tvg-logo="" group-title="[高清]央视",CCTV-13新闻HD[23][高清]
+udp://225.1.2.193:5002
+#EXTINF:-1 tvg-id="" tvg-name="CCTV14" tvg-logo="" group-title="[高清]央视",CCTV-14少儿HD[24][高清]
+udp://225.1.1.144:5002
+#EXTINF:-1 tvg-id="" tvg-name="CCTV15" tvg-logo="" group-title="[高清]央视",CCTV-15音乐HD[25][高清]
+udp://225.1.2.194:5002
+#EXTINF:-1 tvg-id="" tvg-name="" tvg-logo="" group-title="[高清]央视",CCTV-16奥林匹克HD[26][高清]
+udp://225.1.2.237:5002
+#EXTINF:-1 tvg-id="" tvg-name="CCTV17" tvg-logo="" group-title="[高清]央视",CCTV-17农业农村HD[27][高清]
+udp://225.1.2.52:5002
+#EXTINF:-1 tvg-id="" tvg-name="辽宁卫视" tvg-logo="" group-title="[高清]天津",辽宁卫视HD[28][高清]
+udp://225.1.1.154:5002
+#EXTINF:-1 tvg-id="" tvg-name="河南卫视" tvg-logo="" group-title="[高清]天津",河南卫视HD[29][高清]
+udp://225.1.2.61:5002
+#EXTINF:-1 tvg-id="" tvg-name="广西卫视" tvg-logo="" group-title="[高清]天津",广西卫视HD[30][高清]
+udp://225.1.2.81:5002
+#EXTINF:-1 tvg-id="" tvg-name="海南卫视" tvg-logo="" group-title="[高清]天津",海南卫视HD[31][高清]
+udp://225.1.2.82:5002
+#EXTINF:-1 tvg-id="" tvg-name="东方卫视" tvg-logo="" group-title="[高清]天津",东方卫视HD[32][高清]
+udp://225.1.2.31:5002
+#EXTINF:-1 tvg-id="" tvg-name="江西卫视" tvg-logo="" group-title="[高清]天津",江西卫视HD[33][高清]
+udp://225.1.2.29:5002
+#EXTINF:-1 tvg-id="" tvg-name="贵州卫视" tvg-logo="" group-title="[高清]天津",贵州卫视HD[34][高清]
+udp://225.1.2.28:5002
+#EXTINF:-1 tvg-id="" tvg-name="东南卫视" tvg-logo="" group-title="[高清]天津",东南卫视HD[35][高清]
+udp://225.1.2.235:5002
+#EXTINF:-1 tvg-id="" tvg-name="吉林卫视" tvg-logo="" group-title="[高清]天津",吉林卫视HD[36][高清]
+udp://225.1.2.26:5002
+#EXTINF:-1 tvg-id="" tvg-name="重庆卫视" tvg-logo="" group-title="[高清]天津",重庆卫视HD[37][高清]
+udp://225.1.1.155:5002
+#EXTINF:-1 tvg-id="" tvg-name="湖北卫视" tvg-logo="" group-title="[高清]天津",湖北卫视HD[38][高清]
+udp://225.1.1.147:5002
+#EXTINF:-1 tvg-id="" tvg-name="河北卫视" tvg-logo="" group-title="[高清]天津",河北卫视HD[39][高清]
+udp://225.1.2.27:5002
+#EXTINF:-1 tvg-id="" tvg-name="江苏卫视" tvg-logo="" group-title="[高清]天津",江苏卫视HD[40][高清]
+udp://225.1.1.126:5002
+#EXTINF:-1 tvg-id="" tvg-name="浙江卫视" tvg-logo="" group-title="[高清]天津",浙江卫视HD[41][高清]
+udp://225.1.1.112:5002
+#EXTINF:-1 tvg-id="" tvg-name="北京卫视" tvg-logo="" group-title="[高清]天津",北京卫视HD[42][高清]
+udp://225.1.1.113:5002
+#EXTINF:-1 tvg-id="" tvg-name="湖南卫视" tvg-logo="" group-title="[高清]天津",湖南卫视HD[43][高清]
+udp://225.1.1.114:5002
+#EXTINF:-1 tvg-id="" tvg-name="安徽卫视" tvg-logo="" group-title="[高清]天津",安徽卫视HD[44][高清]
+udp://225.1.1.127:5002
+#EXTINF:-1 tvg-id="" tvg-name="广东卫视" tvg-logo="" group-title="[高清]天津",广东卫视HD[45][高清]
+udp://225.1.1.116:5002
+#EXTINF:-1 tvg-id="" tvg-name="深圳卫视" tvg-logo="" group-title="[高清]天津",深圳卫视HD[46][高清]
+udp://225.1.1.117:5002
+#EXTINF:-1 tvg-id="" tvg-name="四川卫视" tvg-logo="" group-title="[高清]天津",四川卫视HD[47][高清]
+udp://225.1.1.123:5002
+#EXTINF:-1 tvg-id="" tvg-name="黑龙江卫视" tvg-logo="" group-title="[高清]天津",黑龙江卫视HD[48][高清]
+udp://225.1.1.115:5002
+#EXTINF:-1 tvg-id="" tvg-name="电视指南" tvg-logo="" group-title="[高清]央视",CCTV-电视指南HD[49][高清]
+udp://225.1.2.167:5002
+#EXTINF:-1 tvg-id="" tvg-name="风云足球" tvg-logo="" group-title="[高清]央视",CCTV-风云足球HD[50][高清]
+udp://225.1.2.168:5002
+#EXTINF:-1 tvg-id="" tvg-name="高尔夫网球" tvg-logo="" group-title="[高清]央视",CCTV-高尔夫.网球HD[51][高清]
+udp://225.1.2.169:5002
+#EXTINF:-1 tvg-id="" tvg-name="央视台球" tvg-logo="" group-title="[高清]央视",CCTV-央视台球HD[52][高清]
+udp://225.1.2.170:5002
+#EXTINF:-1 tvg-id="" tvg-name="世界地理" tvg-logo="" group-title="[高清]央视",CCTV-世界地理HD[53][高清]
+udp://225.1.2.171:5002
+#EXTINF:-1 tvg-id="" tvg-name="女性时尚" tvg-logo="" group-title="[高清]央视",CCTV-女性时尚HD[54][高清]
+udp://225.1.2.172:5002
+#EXTINF:-1 tvg-id="" tvg-name="风云剧场" tvg-logo="" group-title="[高清]央视",CCTV-风云剧场HD[55][高清]
+udp://225.1.2.174:5002
+#EXTINF:-1 tvg-id="" tvg-name="第一剧场" tvg-logo="" group-title="[高清]央视",CCTV-第一剧场HD[56][高清]
+udp://225.1.2.175:5002
+#EXTINF:-1 tvg-id="" tvg-name="风云音乐" tvg-logo="" group-title="[高清]央视",CCTV-风云音乐HD[57][高清]
+udp://225.1.2.176:5002
+#EXTINF:-1 tvg-id="" tvg-name="兵器科技" tvg-logo="" group-title="[高清]央视",CCTV-兵器科技HD[58][高清]
+udp://225.1.2.166:5002
+#EXTINF:-1 tvg-id="" tvg-name="怀旧剧场" tvg-logo="" group-title="[高清]央视",CCTV-怀旧剧场HD[59][高清]
+udp://225.1.2.173:5002
+#EXTINF:-1 tvg-id="" tvg-name="央视文化精品" tvg-logo="" group-title="[高清]央视",CCTV-央视文化精品HD[60][高清]
+udp://225.1.2.177:5002
+#EXTINF:-1 tvg-id="" tvg-name="风尚生活" tvg-logo="" group-title="[高清]天津IPTV",风尚生活HD[61][高清]
+udp://225.1.2.58:5002
+#EXTINF:-1 tvg-id="" tvg-name="幸福剧场" tvg-logo="" group-title="[高清]天津IPTV",幸福剧场HD[62][高清]
+udp://225.1.2.59:5002
+#EXTINF:-1 tvg-id="" tvg-name="幸福娱乐" tvg-logo="" group-title="[高清]天津IPTV",幸福娱乐HD[63][高清]
+udp://225.1.2.60:5002
+#EXTINF:-1 tvg-id="" tvg-name="金鹰纪实" tvg-logo="" group-title="[高清]天津IPTV",金鹰纪实HD[64][高清]
+udp://225.1.1.124:5002
+#EXTINF:-1 tvg-id="" tvg-name="茶频道" tvg-logo="" group-title="[高清]天津IPTV",茶频道[65][高清]
+udp://225.1.2.19:5002
+#EXTINF:-1 tvg-id="" tvg-name="快乐垂钓" tvg-logo="" group-title="[高清]天津IPTV",快乐垂钓HD[66][高清]
+udp://225.1.2.18:5002
+#EXTINF:-1 tvg-id="" tvg-name="陶瓷" tvg-logo="" group-title="[高清]天津IPTV",陶瓷HD[67][高清]
+udp://225.1.1.153:5002
+#EXTINF:-1 tvg-id="" tvg-name="上视纪实人文" tvg-logo="" group-title="[高清]天津IPTV",纪实人文HD[68][高清]
+udp://225.1.2.25:5002
+#EXTINF:-1 tvg-id="" tvg-name="足球频道" tvg-logo="" group-title="[高清]天津IPTV",足球频道[69][高清]
+udp://225.1.2.83:5002
+#EXTINF:-1 tvg-id="" tvg-name="早期教育" tvg-logo="" group-title="[高清]天津IPTV",早期教育[70][高清]
+udp://225.1.2.207:5002
+#EXTINF:-1 tvg-id="" tvg-name="游戏风云" tvg-logo="" group-title="[高清]天津IPTV",游戏风云HD[71][高清]
+udp://225.1.1.135:5002
+#EXTINF:-1 tvg-id="" tvg-name="" tvg-logo="" group-title="[4K]天津IPTV;4K",4K[72][4K]
+udp://225.1.2.190:5002
+#EXTINF:-1 tvg-id="" tvg-name="经典重温" tvg-logo="" group-title="[高清]天津IPTV",经典重温[73][高清]
+udp://225.1.2.122:5002
+#EXTINF:-1 tvg-id="" tvg-name="动漫秀场" tvg-logo="" group-title="[高清]天津IPTV",动漫秀场HD[74][高清]
+udp://225.1.1.134:5002
+#EXTINF:-1 tvg-id="" tvg-name="CHC家庭影院" tvg-logo="" group-title="[高清]天津IPTV",CHC家庭影院HD[75][高清]
+udp://225.1.1.213:5002
+#EXTINF:-1 tvg-id="" tvg-name="极速汽车" tvg-logo="" group-title="[高清]天津IPTV",极速汽车HD[76][高清]
+udp://225.1.1.141:5002
+#EXTINF:-1 tvg-id="" tvg-name="生活时尚" tvg-logo="" group-title="[高清]天津IPTV",生活时尚HD[77][高清]
+udp://225.1.1.143:5002
+#EXTINF:-1 tvg-id="" tvg-name="全纪实" tvg-logo="" group-title="[高清]天津IPTV",全纪实HD[78][高清]
+udp://225.1.1.145:5002
+#EXTINF:-1 tvg-id="" tvg-name="都市剧场" tvg-logo="" group-title="[高清]天津IPTV",都市剧场HD[79][高清]
+udp://225.1.1.146:5002
+#EXTINF:-1 tvg-id="" tvg-name="SITV金色" tvg-logo="" group-title="[高清]天津IPTV",金色频道HD[80][高清]
+udp://225.1.1.236:5002
+#EXTINF:-1 tvg-id="" tvg-name="法治天地" tvg-logo="" group-title="[高清]天津IPTV",法治天地HD[81][高清]
+udp://225.1.1.237:5002
+#EXTINF:-1 tvg-id="" tvg-name="" tvg-logo="" group-title="[高清]天津IPTV",经典老片场[82][高清]
+udp://225.1.2.123:5002
+#EXTINF:-1 tvg-id="" tvg-name="CHC动作电影" tvg-logo="" group-title="[高清]天津IPTV",CHC动作电影HD[83][高清]
+udp://225.1.1.215:5002
+#EXTINF:-1 tvg-id="" tvg-name="CHC高清电影" tvg-logo="" group-title="[高清]天津IPTV",CHC高清电影HD[84][高清]
+udp://225.1.1.214:5002
+#EXTINF:-1 tvg-id="" tvg-name="欢笑剧场" tvg-logo="" group-title="[高清]天津IPTV",欢笑剧场HD[85][高清]
+udp://225.1.1.139:5002
+#EXTINF:-1 tvg-id="" tvg-name="每日影院" tvg-logo="" group-title="[高清]天津IPTV",每日影院[86][高清]
+udp://225.1.2.57:5002
+#EXTINF:-1 tvg-id="" tvg-name="4K私享家" tvg-logo="" group-title="[4K]天津IPTV;4K",4K私享家[87][4K]
+udp://225.1.1.156:5002
+#EXTINF:-1 tvg-id="" tvg-name="" tvg-logo="" group-title="[高清]天津IPTV",new[88][高清]
+udp://225.1.2.183:5002

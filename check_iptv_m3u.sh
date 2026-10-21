@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # ==============================================================================
-# 北京联通 IPTV 节目源巡检与组播动态扫描脚本 (check_iptv_m3u.sh)
-# 参考项目: https://github.com/wuwentao/bj-unicom-iptv/
+# 天津联通 IPTV 节目源巡检与组播动态扫描脚本 (check_iptv_m3u.sh)
+# 参考项目: https://github.com/wuwentao/tj-unicom-iptv/
 #
 # 功能说明:
 # 1. 完整保留原版 check_iptv_m3u.sh 功能：
@@ -14,8 +14,8 @@
 #    - 生成 UTF-8 BOM 编码的 results.csv (编号,频道名称,video track,audio track,screenshot_name,连接flag,分辨率flag)
 #    - 生成仅保留可用频道 (connect_flag=true) 且自动修正分辨率后缀的 modified_iptv.m3u
 # 2. 新增组播网段动态扫描功能 (--scan / -s):
-#    - 支持对北京联通组播网段 (默认 239.3.1.1 ~ 239.3.1.254) 及常用端口进行全量或快速动态扫描
-#    - 支持通过 udpxy 单播代理 (例如 http://192.168.2.1:8012) 或直接 RTP/UDP 组播方式扫描
+#    - 支持对天津联通组播网段 (默认 225.1.1.1 ~ 225.1.1.254) 及常用端口进行全量或快速动态扫描
+#    - 支持通过 udpxy 单播代理 (例如 http://192.168.6.1:5002，路径为 /udp/) 或直接 RTP/UDP 组播方式扫描
 #    - 支持 Android 设备 Shell 环境降级探测 (当设备无 ffprobe/jq/bc 时自动使用 curl/nc/head 检测 MPEG-TS 同步字节 0x47)
 # ==============================================================================
 
@@ -26,9 +26,10 @@ export LC_ALL=C.UTF-8
 FFPROBE_TIMEOUT=${FFPROBE_TIMEOUT:-10}
 FFMPEG_TIMEOUT=${FFMPEG_TIMEOUT:-10}
 M3U_FILE=${M3U_FILE:-"iptv.m3u"}
-UDPXY_SERVER=${UDPXY_SERVER:-""}          # 例如 192.168.2.1:8012
+UDPXY_SERVER=${UDPXY_SERVER:-""}          # 例如 192.168.6.1:5002（天津联通，/udp/ 路径）
 SCAN_ENABLED=${SCAN_ENABLED:-"false"}     # 是否开启组播网段动态扫描
-SCAN_SUBNET=${SCAN_SUBNET:-"239.3.1"}     # 默认扫描网段前缀
+SCAN_SUBNET=${SCAN_SUBNET:-"225.1.1"}     # 默认扫描网段前缀（天津联通 225.1.1.x / 225.1.2.x）
+SCAN_SCHEME=${SCAN_SCHEME:-"udp"}         # 扫描/探测使用的协议前缀：天津联通为 udp，北京等 RTP 省份为 rtp
 SCAN_START=${SCAN_START:-1}               # 起始主机号
 SCAN_END=${SCAN_END:-254}                 # 结束主机号
 SCAN_MODE=${SCAN_MODE:-"fast"}            # fast: 常用端口集, full: 全部79个已知联通端口
@@ -79,9 +80,9 @@ while [[ $# -gt 0 ]]; do
         -h|--help)
             echo "Usage: $0 [options]"
             echo "  -f, --file <m3u>         Input M3U file (default: iptv.m3u)"
-            echo "  -u, --udpxy <ip:port>    udpxy address to rewrite rtp:// URLs (e.g. 192.168.2.1:8012)"
+            echo "  -u, --udpxy <ip:port>    udpxy address to rewrite rtp:// / udp:// URLs (e.g. 192.168.6.1:5002)"
             echo "  -s, --scan               Dynamically scan multicast subnet for available streams"
-            echo "  --subnet <A.B.C>         Multicast subnet prefix (default: 239.3.1)"
+            echo "  --subnet <A.B.C>         Multicast subnet prefix (default: 225.1.1)"
             echo "  --range <start-end>      Last octet scan range (default: 1-254)"
             echo "  --scan-mode <fast|full>  Port scan scope (default: fast)"
             echo "  -t, --timeout <sec>      Probe timeout in seconds (default: 10)"
@@ -183,9 +184,9 @@ run_dynamic_multicast_scan() {
         done < "$M3U_FILE"
     fi
 
-    # 北京联通高频核心组播端口与全量组播端口
-    local FAST_PORTS="8001 4120 8000 4220 2000 1234 3001 3002 3003 3004 3005 3006 8004 8008 8012 9000"
-    local FULL_PORTS="1234 2000 3001 3002 3003 3004 3005 3006 4120 4220 8000 8001 8004 8008 8012 8016 8020 8024 8028 8032 8036 8040 8044 8048 8052 8056 8060 8064 8072 8076 8084 8092 8104 8108 8112 8116 8120 8124 8128 8132 8136 8140 8144 8148 8152 8156 8160 8164 8172 8176 8180 8184 8188 8192 8196 8200 8212 8216 8228 8232 8236 8268 8272 8276 8280 8284 8288 8292 8296 8300 8304 9000 9012 9020 9024 9136 9244 9252 9268"
+    # 天津联通高频核心组播端口与全量组播端口（天津实测集中在 5002，其余为各省联通常见端口）
+    local FAST_PORTS="5002 5004 5006 5008 5140 6001 8001 8008 8012 8016 8020 8028 3001 3002 9000 9012"
+    local FULL_PORTS="5002 5004 5006 5008 5010 5140 6001 6002 1234 2000 3001 3002 3003 3004 3005 3006 4120 4220 8000 8001 8004 8008 8012 8016 8020 8024 8028 8032 8036 8040 8044 8048 8052 8056 8060 8064 8072 8076 8084 8092 8104 8108 8112 8116 8120 8124 8128 8132 8136 8140 8144 8148 8152 8156 8160 8164 8172 8176 8180 8184 8188 8192 8196 8200 8212 8216 8228 8232 8236 8268 8272 8276 8280 8284 8288 8292 8296 8300 8304 9000 9012 9020 9024 9136 9244 9252 9268"
 
     local base_ports="$FAST_PORTS"
     if [ "$SCAN_MODE" = "full" ]; then
@@ -205,7 +206,7 @@ run_dynamic_multicast_scan() {
             fi
             seen_ports="$seen_ports $port"
 
-            local raw_rtp="rtp://${target_ip}:${port}"
+            local raw_rtp="${SCAN_SCHEME}://${target_ip}:${port}"
             local probe_url
             probe_url=$(normalize_stream_url "$raw_rtp")
 

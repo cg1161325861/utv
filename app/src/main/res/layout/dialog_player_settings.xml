@@ -41,7 +41,7 @@
                     android:buttonTint="@color/md_theme_dark_primary"
                     android:focusable="true"
                     android:paddingHorizontal="8dp"
-                    android:text="路由器 udpxy 组播转单播 (推荐，如 http://192.168.2.1:8012/rtp/...)"
+                    android:text="路由器 udpxy 组播转单播 (推荐，如 http://192.168.6.1:5002/udp/...)"
                     android:textColor="@color/text_primary"
                     android:textSize="13sp" />
 
@@ -67,7 +67,7 @@
                     android:buttonTint="@color/md_theme_dark_primary"
                     android:focusable="true"
                     android:paddingHorizontal="8dp"
-                    android:text="池化下载器原生 IGMP 组播直连 (rtp://239.3.1.x:port)"
+                    android:text="池化下载器原生 IGMP 组播直连 (udp://225.1.x.x:5002)"
                     android:textColor="@color/text_primary"
                     android:textSize="13sp" />
             </RadioGroup>
@@ -87,7 +87,7 @@
                 android:layout_marginTop="6dp"
                 android:background="@drawable/bg_md3_search_bar"
                 android:fontFamily="monospace"
-                android:hint="192.168.2.1:8012"
+                android:hint="192.168.6.1:5002"
                 android:paddingHorizontal="16dp"
                 android:singleLine="true"
                 android:textColor="@color/text_primary"

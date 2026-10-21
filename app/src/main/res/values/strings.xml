@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">uTV</string>
+    <string name="app_name">tjTV</string>
     <string name="scanner_title">组播地址动态扫描与巡检 (check_iptv_m3u.sh)</string>
 
     <!-- Player & HUD -->
@@ -21,8 +21,8 @@
     <string name="group_4k">4K超清</string>
     <string name="group_hd_cctv">[高清]央视</string>
     <string name="group_hd_satellite">[高清]卫视</string>
-    <string name="group_hd_bj">[高清]北京</string>
-    <string name="group_hd_iptv">[高清]北京IPTV</string>
+    <string name="group_hd_tj">[高清]天津</string>
+    <string name="group_hd_iptv">[高清]天津IPTV</string>
     <string name="group_kids">少儿</string>
     <string name="group_sd">标清/传统频道</string>
     <string name="group_discovered">动态扫描发现</string>

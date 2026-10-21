@@ -10,3 +10,9 @@
 local.properties
 app/build/
 iptv_*/
+
+# 签名私钥与凭据（绝不入库）
+*.jks
+*.keystore
+app/keystore/
+

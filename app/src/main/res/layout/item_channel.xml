@@ -89,7 +89,7 @@
                 android:ellipsize="end"
                 android:fontFamily="monospace"
                 android:singleLine="true"
-                android:text="rtp://239.3.1.129:8008"
+                android:text="udp://225.1.2.57:5002"
                 android:textColor="@color/text_secondary"
                 android:textSize="11sp" />
 

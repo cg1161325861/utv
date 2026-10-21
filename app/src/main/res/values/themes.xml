@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Material Design 3 Dark Theme for TV & Touch -->
-    <style name="Theme.BjUnicomIptv" parent="Theme.Material3.Dark.NoActionBar">
+    <style name="Theme.TjUnicomIptv" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/md_theme_dark_primary</item>
         <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
@@ -24,11 +24,11 @@
         <item name="android:windowFullscreen">true</item>
 
         <!-- Material AlertDialog Theme Overlay -->
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.BjUnicomIptv.MaterialAlertDialog</item>
-        <item name="alertDialogTheme">@style/ThemeOverlay.BjUnicomIptv.MaterialAlertDialog</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.TjUnicomIptv.MaterialAlertDialog</item>
+        <item name="alertDialogTheme">@style/ThemeOverlay.TjUnicomIptv.MaterialAlertDialog</item>
     </style>
 
-    <style name="ThemeOverlay.BjUnicomIptv.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+    <style name="ThemeOverlay.TjUnicomIptv.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="colorSurface">@color/md_theme_dark_surfaceContainer</item>
         <item name="colorOnSurface">@color/text_primary</item>
         <item name="colorOnSurfaceVariant">@color/text_secondary</item>
@@ -38,7 +38,7 @@
     </style>
 
     <!-- Material 3 Tonal Action Chip Button (HUD & Top Bar) -->
-    <style name="Widget.BjUnicomIptv.HudButton" parent="Widget.AppCompat.Button.Borderless">
+    <style name="Widget.TjUnicomIptv.HudButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:background">@drawable/bg_group_tab</item>
         <item name="backgroundTint">@null</item>
         <item name="android:backgroundTint">@null</item>
@@ -52,7 +52,7 @@
     </style>
 
     <!-- Material 3 Primary Filled Button -->
-    <style name="Widget.BjUnicomIptv.PrimaryButton" parent="Widget.AppCompat.Button.Borderless">
+    <style name="Widget.TjUnicomIptv.PrimaryButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:background">@drawable/bg_md3_primary_button</item>
         <item name="backgroundTint">@null</item>
         <item name="android:backgroundTint">@null</item>

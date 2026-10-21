@@ -19,7 +19,7 @@
 
         <Button
             android:id="@+id/btn_scanner_back"
-            style="@style/Widget.BjUnicomIptv.HudButton"
+            style="@style/Widget.TjUnicomIptv.HudButton"
             android:layout_width="wrap_content"
             android:layout_height="38dp"
             android:drawableStart="@drawable/ic_flat_back"
@@ -37,14 +37,14 @@
             android:layout_marginStart="16dp"
             android:layout_weight="1"
             android:fontFamily="sans-serif-medium"
-            android:text="北京联通组播地址动态扫描 &amp; check_iptv_m3u.sh 节目巡检"
+            android:text="天津联通组播地址动态扫描 &amp; check_iptv_m3u.sh 节目巡检"
             android:textColor="@color/text_primary"
             android:textSize="17sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_export_m3u"
-            style="@style/Widget.BjUnicomIptv.HudButton"
+            style="@style/Widget.TjUnicomIptv.HudButton"
             android:layout_width="wrap_content"
             android:layout_height="38dp"
             android:drawableStart="@drawable/ic_flat_export"
@@ -103,7 +103,7 @@
                         android:checked="true"
                         android:focusable="true"
                         android:paddingHorizontal="8dp"
-                        android:text="动态扫描网段全部组播地址 (239.3.1.x)"
+                        android:text="动态扫描网段全部组播地址 (225.1.x)"
                         android:textColor="@color/text_primary"
                         android:textSize="13sp" />
 
@@ -169,7 +169,7 @@
                         android:fontFamily="monospace"
                         android:paddingHorizontal="12dp"
                         android:singleLine="true"
-                        android:text="239.3.1"
+                        android:text="225.1.1"
                         android:textColor="@color/text_primary"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -246,10 +246,10 @@
                         android:background="@drawable/bg_badge"
                         android:focusable="true"
                         android:fontFamily="monospace"
-                        android:hint="如 192.168.2.1:8012"
+                        android:hint="如 192.168.6.1:5002"
                         android:paddingHorizontal="12dp"
                         android:singleLine="true"
-                        android:text="192.168.2.1:8012"
+                        android:text="192.168.6.1:5002"
                         android:textColor="@color/text_primary"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -304,7 +304,7 @@
 
                     <Button
                         android:id="@+id/btn_start_scan"
-                        style="@style/Widget.BjUnicomIptv.PrimaryButton"
+                        style="@style/Widget.TjUnicomIptv.PrimaryButton"
                         android:layout_width="0dp"
                         android:layout_height="44dp"
                         android:layout_weight="1"
@@ -318,7 +318,7 @@
 
                     <Button
                         android:id="@+id/btn_stop_scan"
-                        style="@style/Widget.BjUnicomIptv.HudButton"
+                        style="@style/Widget.TjUnicomIptv.HudButton"
                         android:layout_width="wrap_content"
                         android:layout_height="44dp"
                         android:layout_marginStart="8dp"

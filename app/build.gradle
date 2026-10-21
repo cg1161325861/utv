@@ -2,16 +2,33 @@ plugins {
     id 'com.android.application'
 }
 
+// 签名凭据不进仓库：优先读 local.properties（已被 .gitignore 忽略），其次读环境变量。
+// 用法：在 local.properties 里写
+//   TJ_STORE_FILE=D:\\iptv\\keys\\tj-unicom-iptv-release.jks
+//   TJ_STORE_PASSWORD=xxx
+//   TJ_KEY_ALIAS=tjunicom_iptv
+//   TJ_KEY_PASSWORD=xxx
+def tjSigningProps = new Properties()
+def tjLocalProps = rootProject.file('local.properties')
+if (tjLocalProps.exists()) {
+    tjLocalProps.withInputStream { tjSigningProps.load(it) }
+}
+def tjProp = { String key, String envName ->
+    def v = tjSigningProps.getProperty(key)
+    return (v != null && !v.trim().isEmpty()) ? v.trim() : System.getenv(envName)
+}
+def tjStoreFile = tjProp('TJ_STORE_FILE', 'TJ_STORE_FILE')
+
 android {
-    namespace 'com.bjunicom.iptv'
+    namespace 'com.tjunicom.iptv'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.bjunicom.iptv"
+        applicationId "com.tjunicom.iptv"
         minSdk 21
         targetSdk 34
-        versionCode 100
-        versionName "1.0.0"
+        versionCode 1
+        versionName "0.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -22,10 +39,12 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('keystore/bj_unicom_iptv_release.jks')
-            storePassword System.getenv('KEYSTORE_PASSWORD') ?: 'bjiptv2026'
-            keyAlias System.getenv('KEY_ALIAS') ?: 'bjunicom_iptv'
-            keyPassword System.getenv('KEY_PASSWORD') ?: 'bjiptv2026'
+            if (tjStoreFile != null) {
+                storeFile file(tjStoreFile)
+                storePassword tjProp('TJ_STORE_PASSWORD', 'TJ_STORE_PASSWORD')
+                keyAlias tjProp('TJ_KEY_ALIAS', 'TJ_KEY_ALIAS')
+                keyPassword tjProp('TJ_KEY_PASSWORD', 'TJ_KEY_PASSWORD')
+            }
             enableV1Signing true
             enableV2Signing true
             enableV3Signing true
@@ -36,12 +55,14 @@ android {
         release {
             minifyEnabled false
             shrinkResources false
-            signingConfig signingConfigs.release
+            if (tjStoreFile != null) {
+                signingConfig signingConfigs.release
+            }
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
-            signingConfig signingConfigs.release
+            // debug 使用 Android 默认 debug keystore，避免把 release 私钥带进日常构建产物
         }
     }
 
