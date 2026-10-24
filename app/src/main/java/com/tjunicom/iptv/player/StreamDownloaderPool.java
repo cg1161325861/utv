@@ -43,7 +43,7 @@ import tv.danmaku.ijk.media.player.misc.IMediaDataSource;
 public class StreamDownloaderPool {
     private static final String TAG = "StreamDownloaderPool";
     private static final int MAX_POOL_SIZE = 4;
-    private static final int RING_BUFFER_SIZE = 2 * 1024 * 1024; // 2MB 预分配环形缓冲
+    private static final int RING_BUFFER_SIZE = 4 * 1024 * 1024; // 4MB 预分配环形缓冲（4K 40Mbps 约 0.8s 余量）
 
     private static volatile StreamDownloaderPool instance;
 

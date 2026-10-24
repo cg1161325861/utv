@@ -78,8 +78,49 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
     }
 
     public void setCurrentPlayingUrl(String rawUrl) {
+        int oldIndex = indexOfUrl(currentPlayingUrl);
         this.currentPlayingUrl = rawUrl != null ? rawUrl : "";
-        safeNotifyDataSetChanged();
+        int newIndex = indexOfUrl(currentPlayingUrl);
+        // 只刷新受影响的两行，避免整表重绑造成的掉帧
+        if (oldIndex >= 0) {
+            safeNotifyItemChanged(oldIndex);
+        }
+        if (newIndex >= 0 && newIndex != oldIndex) {
+            safeNotifyItemChanged(newIndex);
+        }
+    }
+
+    /**
+     * 频道状态（可用/不可用、轨道信息）变化时只刷新那一行
+     */
+    public void notifyChannelChanged(IptvChannel channel) {
+        if (channel == null) {
+            return;
+        }
+        int index = indexOfUrl(channel.getRawUrl());
+        if (index >= 0) {
+            safeNotifyItemChanged(index);
+        }
+    }
+
+    private int indexOfUrl(String url) {
+        if (TextUtils.isEmpty(url)) {
+            return -1;
+        }
+        for (int i = 0; i < channels.size(); i++) {
+            if (url.equals(channels.get(i).getRawUrl())) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void safeNotifyItemChanged(final int position) {
+        if (attachedRecyclerView != null && attachedRecyclerView.isComputingLayout()) {
+            attachedRecyclerView.post(() -> notifyItemChanged(position));
+        } else {
+            notifyItemChanged(position);
+        }
     }
 
     public List<IptvChannel> getChannels() {

@@ -49,6 +49,7 @@ public class ChannelRepository {
     private final Context appContext;
     private final IptvSettings settings;
     private final List<IptvChannel> allChannels = new ArrayList<>();
+    private List<String> cachedCategoryGroups;
     private final Map<String, IptvChannel> knownMulticastMap = new LinkedHashMap<>();
 
     private ChannelRepository(Context context) {
@@ -71,6 +72,7 @@ public class ChannelRepository {
     public synchronized void reloadChannels() {
         allChannels.clear();
         knownMulticastMap.clear();
+        cachedCategoryGroups = null;
 
         String assetName = settings.isIncludeAllRepoChannels() ? ASSET_M3U_ALL : ASSET_M3U_LATEST;
         List<IptvChannel> baseList = loadFromAssets(assetName);
@@ -128,6 +130,7 @@ public class ChannelRepository {
      * 合并扫描结果列表到当前频道仓库并持久化
      */
     public synchronized void mergeScanResults(List<IptvChannel> scannedList, boolean persistToDisk) {
+        cachedCategoryGroups = null;
         if (scannedList == null || scannedList.isEmpty()) {
             return;
         }
@@ -230,6 +233,9 @@ public class ChannelRepository {
     }
 
     public synchronized List<String> getCategoryGroups() {
+        if (cachedCategoryGroups != null) {
+            return new ArrayList<>(cachedCategoryGroups);
+        }
         List<String> categories = new ArrayList<>();
         categories.add(GROUP_ALL);
         // 固定分类只在确实有频道命中时才出现，避免空标签占位
@@ -250,6 +256,7 @@ public class ChannelRepository {
             }
         }
         categories.add(GROUP_FAVORITES);
+        cachedCategoryGroups = new ArrayList<>(categories);
         return categories;
     }
 

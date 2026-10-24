@@ -561,7 +561,7 @@ public class MainActivity extends AppCompatActivity {
                     currentChannel.setActualResolutionFlag(detectedRes);
                 }
                 updateOsdWithChannel(currentChannel);
-                channelAdapter.notifyDataSetChanged();
+                channelAdapter.notifyChannelChanged(currentChannel);
                 maybeSwitchToExoForUhd();
             }
             scheduleHideHud();
@@ -612,7 +612,7 @@ public class MainActivity extends AppCompatActivity {
             loadingOverlay.setVisibility(View.GONE);
             if (currentChannel != null) {
                 currentChannel.setConnected(false);
-                channelAdapter.notifyDataSetChanged();
+                channelAdapter.notifyChannelChanged(currentChannel);
             }
             tvOsdTrackInfo.setText("连接失败 (请按遥控器[菜单]检查 udpxy/内置组播代理设置，或按[绿键]打开「组播动态扫描」)");
             showHudTemporarily();
@@ -708,6 +708,10 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
         if ("4K".equals(channel.getResolutionTag())) {
+            return true;
+        }
+        // 首次播放探测到 4K 后记在频道对象上，下次切回来就不用再"开两遍"
+        if ("4K".equals(channel.getActualResolutionFlag())) {
             return true;
         }
         String title = channel.getRawTitle();
