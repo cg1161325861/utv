@@ -112,19 +112,36 @@
                 android:layout_marginStart="16dp"
                 android:background="@drawable/ic_md_live_dot" />
 
-            <TextView
-                android:id="@+id/tv_top_channel_title"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:ellipsize="end"
-                android:fontFamily="sans-serif-medium"
-                android:singleLine="true"
-                android:text="001 CCTV-1综合 [高清]"
-                android:textColor="@color/text_primary"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_top_channel_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-medium"
+                    android:singleLine="true"
+                    android:text="001 CCTV-1综合 [高清]"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_top_epg_now"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+            </LinearLayout>
 
             <!-- 实时速率与帧率 Material Tonal Chip -->
             <TextView
@@ -139,6 +156,20 @@
                 android:text="0 KB/s | 25 fps"
                 android:textColor="@color/md_theme_dark_primary"
                 android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_top_clock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:fontFamily="monospace"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="5dp"
+                android:text="--:--"
+                android:textColor="@color/text_primary"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
             <Button

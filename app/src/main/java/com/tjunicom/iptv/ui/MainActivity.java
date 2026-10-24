@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tjunicom.iptv.IptvApplication;
 import com.tjunicom.iptv.R;
 import com.tjunicom.iptv.config.IptvSettings;
+import com.tjunicom.iptv.epg.EpgRepository;
 import com.tjunicom.iptv.model.IptvChannel;
 import com.tjunicom.iptv.network.StreamUrlResolver;
 import com.tjunicom.iptv.player.IjkVideoView;
@@ -70,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout drawerPanel;
 
     private TextView tvTopChannelTitle;
+    private TextView tvTopEpgNow;
+    private TextView tvTopClock;
     private TextView tvTopStreamSpeed;
     private TextView tvOsdChannelNum;
     private TextView tvOsdChannelName;
@@ -154,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
         setupChannelList();
         setupPlayerListeners();
         refreshChannelList();
+        startClockAndEpg();
 
         // 自动播放上次观看的频道 (默认 CCTV-1综合[1][高清])
         playInitialChannel();
@@ -166,6 +171,50 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private final android.os.Handler uiHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+    private final Runnable clockTick = new Runnable() {
+        @Override
+        public void run() {
+            updateClock();
+            updateEpgNow();
+            uiHandler.postDelayed(this, 10000L);
+        }
+    };
+    private EpgRepository epgRepository;
+    private View cachedSettingsView;
+
+    private void startClockAndEpg() {
+        epgRepository = EpgRepository.getInstance(this);
+        updateClock();
+        uiHandler.post(clockTick);
+        epgRepository.loadAsync(() -> runOnUiThread(this::updateEpgNow));
+    }
+
+    private void updateClock() {
+        if (tvTopClock == null) {
+            return;
+        }
+        tvTopClock.setText(new java.text.SimpleDateFormat("HH:mm", java.util.Locale.US)
+                .format(new java.util.Date()));
+    }
+
+    private void updateEpgNow() {
+        if (tvTopEpgNow == null) {
+            return;
+        }
+        if (currentChannel == null || epgRepository == null || !epgRepository.isReady()) {
+            tvTopEpgNow.setVisibility(View.GONE);
+            return;
+        }
+        EpgRepository.Program program = epgRepository.currentProgram(currentChannel.getDisplayName());
+        if (program == null || TextUtils.isEmpty(program.title)) {
+            tvTopEpgNow.setVisibility(View.GONE);
+            return;
+        }
+        tvTopEpgNow.setText(program.title + "  " + program.rangeText());
+        tvTopEpgNow.setVisibility(View.VISIBLE);
+    }
+
     private void bindViews() {
         videoView = findViewById(R.id.ijk_video_view);
         loadingOverlay = findViewById(R.id.loading_overlay);
@@ -175,6 +224,8 @@ public class MainActivity extends AppCompatActivity {
         drawerPanel = findViewById(R.id.channel_drawer_panel);
 
         tvTopChannelTitle = findViewById(R.id.tv_top_channel_title);
+        tvTopEpgNow = findViewById(R.id.tv_top_epg_now);
+        tvTopClock = findViewById(R.id.tv_top_clock);
         tvTopStreamSpeed = findViewById(R.id.tv_top_stream_speed);
         tvOsdChannelNum = findViewById(R.id.tv_osd_channel_num);
         tvOsdChannelName = findViewById(R.id.tv_osd_channel_name);
@@ -563,6 +614,8 @@ public class MainActivity extends AppCompatActivity {
                 updateOsdWithChannel(currentChannel);
                 channelAdapter.notifyChannelChanged(currentChannel);
                 maybeSwitchToExoForUhd();
+                // 首帧后解码器类型才确定，再复查一次是否掉进了 FFmpeg 软解
+                mainHandler.postDelayed(() -> maybeSwitchToExoForUhd(), 2000L);
             }
             scheduleHideHud();
         });
@@ -697,6 +750,7 @@ public class MainActivity extends AppCompatActivity {
                 channel.getChannelNumberDisplay(), channel.getDisplayName()));
 
         updateOsdWithChannel(channel);
+        updateEpgNow();
         showHudTemporarily();
 
         videoView.setRawChannelUrl(channel.getRawUrl());
@@ -747,12 +801,16 @@ public class MainActivity extends AppCompatActivity {
         }
         int w = videoView.getVideoWidth();
         int h = videoView.getVideoHeight();
-        if (w < 2560 && h < 1440) {
+        boolean uhd = w >= 2560 || h >= 1440;
+        // IJK 因 profile 未知把硬解禁掉、退回 FFmpeg 软解时也切 Exo（这类流只有十几帧）
+        boolean softDecoded = videoView.isVideoSoftDecoded();
+        if (!uhd && !softDecoded) {
             return;
         }
         auto4kSwitchedUrl = url;
         forceExoOnce = true;
-        android.util.Log.i("MainActivity", "UHD detected (" + w + "x" + h + "), switching to Exo core");
+        android.util.Log.i("MainActivity", "auto switch to Exo (uhd=" + uhd + ", soft=" + softDecoded
+                + ", " + w + "x" + h + ")");
         playChannel(currentChannel);
     }
 
@@ -1152,7 +1210,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showSettingsDialog() {
-        View view = LayoutInflater.from(this).inflate(R.layout.dialog_player_settings, null);
+        // 弹窗 View 缓存复用：原来每次打开都重新 inflate 整套布局（十几层嵌套），是"点设置要顿一下"的主因
+        if (cachedSettingsView == null) {
+            cachedSettingsView = LayoutInflater.from(this).inflate(R.layout.dialog_player_settings, null);
+        }
+        View view = cachedSettingsView;
+        if (view.getParent() instanceof ViewGroup) {
+            ((ViewGroup) view.getParent()).removeView(view);
+        }
         RadioGroup rgStreamMode = view.findViewById(R.id.rg_stream_mode);
         EditText etUdpxy = view.findViewById(R.id.et_settings_udpxy);
         RadioGroup rgPlayerCore = view.findViewById(R.id.rg_player_core);
@@ -1501,6 +1566,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         mainHandler.removeCallbacksAndMessages(null);
+        uiHandler.removeCallbacks(clockTick);
         if (videoView != null) {
             videoView.stopPlayback();
         }

@@ -602,6 +602,25 @@ public class IjkVideoView extends FrameLayout {
     /**
      * 获取当前解码器名称与池化状态
      */
+    /**
+     * 当前视频是否在用 FFmpeg 软解。
+     * ijkplayer 遇到 profile 未知的 H.264 会主动禁用 MediaCodec（日志 "unknown profile: disabled"），
+     * 这类流软解只有十几帧，需要上层自动切 Exo 内核。
+     */
+    public boolean isVideoSoftDecoded() {
+        if (effectivePlayerType() != IptvSettings.PLAYER_IJK || !isInPlaybackState()) {
+            return false;
+        }
+        try {
+            IMediaPlayer mp = unwrapIjkMediaPlayer();
+            if (mp instanceof IjkMediaPlayer) {
+                return ((IjkMediaPlayer) mp).getVideoDecoder() == IjkMediaPlayer.FFP_PROPV_DECODER_AVCODEC;
+            }
+        } catch (Throwable ignored) {
+        }
+        return false;
+    }
+
     public String getDecoderName() {
         int playerType = effectivePlayerType();
         if (playerType == IptvSettings.PLAYER_ANDROID_MEDIA) {

@@ -200,7 +200,7 @@
                 android:buttonTint="@color/md_theme_dark_primary"
                 android:focusable="true"
                 android:paddingHorizontal="8dp"
-                android:text="4K 频道自动切 Exo 硬解（避开 IJK 软解掉帧）"
+                android:text="自动切 Exo 内核（4K 或 IJK 软解掉帧时）"
                 android:textColor="@color/text_primary" />
 
             <CheckBox
