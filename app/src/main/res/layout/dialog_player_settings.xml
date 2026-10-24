@@ -192,6 +192,18 @@
                 android:textColor="@color/text_primary" />
 
             <CheckBox
+                android:id="@+id/cb_settings_auto_4k_exo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_badge"
+                android:buttonTint="@color/md_theme_dark_primary"
+                android:focusable="true"
+                android:paddingHorizontal="8dp"
+                android:text="4K 频道自动切 Exo 硬解（避开 IJK 软解掉帧）"
+                android:textColor="@color/text_primary" />
+
+            <CheckBox
                 android:id="@+id/cb_settings_opensles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

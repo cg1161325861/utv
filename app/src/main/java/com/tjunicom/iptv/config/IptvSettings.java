@@ -36,6 +36,7 @@ public class IptvSettings {
     private static final String KEY_MEDIACODEC_HEVC = "mediacodec_hevc";
     private static final String KEY_OPENSLES_ENABLED = "opensles_enabled";
     private static final String KEY_RENDER_VIEW_TYPE = "render_view_type"; // 0: SurfaceView, 1: TextureView
+    private static final String KEY_AUTO_4K_EXO = "auto_4k_exo";
     private static final String KEY_ASPECT_RATIO = "aspect_ratio";
     private static final String KEY_INCLUDE_HISTORICAL = "include_historical_channels";
     private static final String KEY_ONLY_SHOW_AVAILABLE = "only_show_available";
@@ -111,6 +112,17 @@ public class IptvSettings {
 
     public void setRenderViewType(int type) {
         prefs.edit().putInt(KEY_RENDER_VIEW_TYPE, type).apply();
+    }
+
+    /**
+     * 4K 频道是否自动切到 Exo 内核（IJK 播 HEVC 4K 常回退 FFmpeg 软解，只有 2fps）
+     */
+    public boolean isAutoExoFor4k() {
+        return prefs.getBoolean(KEY_AUTO_4K_EXO, true);
+    }
+
+    public void setAutoExoFor4k(boolean enabled) {
+        prefs.edit().putBoolean(KEY_AUTO_4K_EXO, enabled).apply();
     }
 
     public int getAspectRatio() {

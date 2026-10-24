@@ -99,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
     private IptvChannel currentChannel;
     private boolean fallbackToLocalProxyAttempted = false;
     private boolean udpxyUnreachableInSession = false;
+    private boolean forcedCoreFallbackAttempted = false;
+    private boolean auto4kExoDisabled = false;
+    private boolean forceExoOnce = false;
+    private String auto4kSwitchedUrl = null;
     private long lastBackPressTimeMs = 0L;
     private final StringBuilder remoteNumberBuffer = new StringBuilder();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -558,6 +562,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 updateOsdWithChannel(currentChannel);
                 channelAdapter.notifyDataSetChanged();
+                maybeSwitchToExoForUhd();
             }
             scheduleHideHud();
         });
@@ -577,6 +582,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
         videoView.setOnErrorListener((mp, frameworkErr, implErr) -> {
+            // 4K 自动切 Exo 后仍失败 → 本次运行禁用自动切核，按设置的内核重试一次
+            if (videoView.hasForcedPlayerType() && !forcedCoreFallbackAttempted) {
+                forcedCoreFallbackAttempted = true;
+                auto4kExoDisabled = true;
+                if (currentChannel != null) {
+                    playChannel(currentChannel);
+                }
+                return true;
+            }
             if (currentChannel != null && !fallbackToLocalProxyAttempted) {
                 fallbackToLocalProxyAttempted = true;
                 if (settings.getStreamMode() == IptvSettings.STREAM_MODE_UDPXY) {
@@ -651,6 +665,15 @@ public class MainActivity extends AppCompatActivity {
         }
         currentChannel = channel;
         fallbackToLocalProxyAttempted = false;
+        forcedCoreFallbackAttempted = false;
+        // 4K 频道自动切 Exo（IJK 播 HEVC 4K 常回退 FFmpeg 软解，掉到 2fps）
+        boolean forceExo4k = forceExoOnce
+                || (settings.isAutoExoFor4k()
+                && !auto4kExoDisabled
+                && IptvSettings.PLAYER_IJK == settings.getPlayerType()
+                && is4kChannel(channel));
+        forceExoOnce = false;
+        videoView.setForcedPlayerType(forceExo4k ? IptvSettings.PLAYER_IJK_EXO : -1);
         settings.setLastChannelUrl(channel.getRawUrl());
         channelAdapter.setCurrentPlayingUrl(channel.getRawUrl());
 
@@ -679,6 +702,54 @@ public class MainActivity extends AppCompatActivity {
         videoView.setRawChannelUrl(channel.getRawUrl());
         videoView.setVideoPath(resolvedUrl);
         videoView.start();
+    }
+
+    private static boolean is4kChannel(IptvChannel channel) {        if (channel == null) {
+            return false;
+        }
+        if ("4K".equals(channel.getResolutionTag())) {
+            return true;
+        }
+        String title = channel.getRawTitle();
+        if (title != null && title.toUpperCase(Locale.ROOT).contains("4K")) {
+            return true;
+        }
+        for (String g : channel.getGroups()) {
+            if (g != null && g.toUpperCase(Locale.ROOT).contains("4K")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 预播放完成后按“实际探测到的分辨率”兜底切 Exo：
+     * 频道表里的 4K 标记并不可靠（很多 4K 流台名只有“高清”），
+     * 而 IJK 播 HEVC/4K 常回退 FFmpeg 软解掉到 2fps，这里检测到超高清就用 Exo 重开一次。
+     */
+    private void maybeSwitchToExoForUhd() {
+        if (!settings.isAutoExoFor4k() || auto4kExoDisabled) {
+            return;
+        }
+        if (settings.getPlayerType() != IptvSettings.PLAYER_IJK) {
+            return;
+        }
+        if (videoView.hasForcedPlayerType() || currentChannel == null) {
+            return;
+        }
+        String url = currentChannel.getRawUrl();
+        if (url != null && url.equals(auto4kSwitchedUrl)) {
+            return;
+        }
+        int w = videoView.getVideoWidth();
+        int h = videoView.getVideoHeight();
+        if (w < 2560 && h < 1440) {
+            return;
+        }
+        auto4kSwitchedUrl = url;
+        forceExoOnce = true;
+        android.util.Log.i("MainActivity", "UHD detected (" + w + "x" + h + "), switching to Exo core");
+        playChannel(currentChannel);
     }
 
     private void updateOsdWithChannel(IptvChannel ch) {
@@ -1083,6 +1154,7 @@ public class MainActivity extends AppCompatActivity {
         RadioGroup rgPlayerCore = view.findViewById(R.id.rg_player_core);
         CheckBox cbMediaCodec = view.findViewById(R.id.cb_settings_mediacodec);
         CheckBox cbHevc = view.findViewById(R.id.cb_settings_hevc);
+        CheckBox cbAuto4kExo = view.findViewById(R.id.cb_settings_auto_4k_exo);
         CheckBox cbOpenSlEs = view.findViewById(R.id.cb_settings_opensles);
         CheckBox cbTextureView = view.findViewById(R.id.cb_settings_textureview);
         CheckBox cbAllChannels = view.findViewById(R.id.cb_settings_all_channels);
@@ -1109,6 +1181,7 @@ public class MainActivity extends AppCompatActivity {
 
         cbMediaCodec.setChecked(settings.isMediaCodecEnabled());
         cbHevc.setChecked(settings.isMediaCodecHevcEnabled());
+        cbAuto4kExo.setChecked(settings.isAutoExoFor4k());
         cbOpenSlEs.setChecked(settings.isOpenSlEsEnabled());
         cbTextureView.setChecked(settings.getRenderViewType() == IjkVideoView.RENDER_TEXTURE_VIEW);
         cbAllChannels.setChecked(settings.isIncludeAllRepoChannels());
@@ -1140,6 +1213,8 @@ public class MainActivity extends AppCompatActivity {
 
                     settings.setMediaCodecEnabled(cbMediaCodec.isChecked());
                     settings.setMediaCodecHevcEnabled(cbHevc.isChecked());
+                    settings.setAutoExoFor4k(cbAuto4kExo.isChecked());
+                    auto4kExoDisabled = false;
                     settings.setOpenSlEsEnabled(cbOpenSlEs.isChecked());
                     int renderType = cbTextureView.isChecked()
                             ? IjkVideoView.RENDER_TEXTURE_VIEW

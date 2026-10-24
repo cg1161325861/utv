@@ -93,6 +93,19 @@ public class IjkVideoView extends FrameLayout {
 
     private Context mAppContext;
     private IptvSettings mSettings;
+    private int mForcedPlayerType = -1;   // >=0 时覆盖设置里的内核，用于 4K 频道自动切 Exo
+
+    public void setForcedPlayerType(int playerType) {
+        mForcedPlayerType = playerType;
+    }
+
+    public boolean hasForcedPlayerType() {
+        return mForcedPlayerType >= 0;
+    }
+
+    private int effectivePlayerType() {
+        return mForcedPlayerType >= 0 ? mForcedPlayerType : mSettings.getPlayerType();
+    }
     private int mCurrentRender = RENDER_SURFACE_VIEW;
     private IRenderView mRenderView;
     private int mCurrentAspectRatioIndex = 0;
@@ -256,7 +269,7 @@ public class IjkVideoView extends FrameLayout {
         try {
             Uri playbackUri = resolvePlaybackUri(mUri);
             String scheme = playbackUri.getScheme();
-            boolean useSeparatedPoolPipeline = (mSettings.getPlayerType() == IptvSettings.PLAYER_IJK)
+            boolean useSeparatedPoolPipeline = (effectivePlayerType() == IptvSettings.PLAYER_IJK)
                     && scheme != null
                     && (scheme.equalsIgnoreCase("http")
                     || scheme.equalsIgnoreCase("https")
@@ -298,7 +311,7 @@ public class IjkVideoView extends FrameLayout {
             }
 
             // 非 IJK 模式 (ExoPlayer / AndroidMediaPlayer) 走常规播放器路径
-            mMediaPlayer = createFallbackPlayer(mSettings.getPlayerType());
+            mMediaPlayer = createFallbackPlayer(effectivePlayerType());
             attachPlayerListeners(mMediaPlayer);
             mMediaPlayer.setDataSource(mAppContext, playbackUri, mHeaders);
             bindSurfaceHolder(mMediaPlayer, mSurfaceHolder);
@@ -362,7 +375,7 @@ public class IjkVideoView extends FrameLayout {
         if (scheme != null && (scheme.equalsIgnoreCase("rtp") || scheme.equalsIgnoreCase("udp"))) {
             // StreamDownloaderPool 内置了直连 IGMP 组播 Socket 的能力，可直接处理 rtp:// / udp://；
             // 若用户切换到 ExoPlayer / AndroidMediaPlayer，则通过 LocalMulticastProxyServer 转换。
-            if (mSettings.getPlayerType() != IptvSettings.PLAYER_IJK && mAppContext instanceof IptvApplication) {
+            if (effectivePlayerType() != IptvSettings.PLAYER_IJK && mAppContext instanceof IptvApplication) {
                 int proxyPort = ((IptvApplication) mAppContext).getLocalProxyPort();
                 if (proxyPort > 0) {
                     String localUrl = StreamUrlResolver.toUdpxyUrl(
@@ -590,7 +603,7 @@ public class IjkVideoView extends FrameLayout {
      * 获取当前解码器名称与池化状态
      */
     public String getDecoderName() {
-        int playerType = mSettings.getPlayerType();
+        int playerType = effectivePlayerType();
         if (playerType == IptvSettings.PLAYER_ANDROID_MEDIA) {
             String hwAudio = mHwAudioCompanion.getActiveCodecLabel();
             if (!TextUtils.isEmpty(hwAudio)) {
@@ -837,7 +850,7 @@ public class IjkVideoView extends FrameLayout {
                     mRenderView.setVideoSampleAspectRatio(mVideoSarNum, mVideoSarDen);
                     if (!mRenderView.shouldWaitForResize()
                             || (mSurfaceWidth == mVideoWidth && mSurfaceHeight == mVideoHeight)
-                            || mSettings.getPlayerType() != IptvSettings.PLAYER_IJK) {
+                            || effectivePlayerType() != IptvSettings.PLAYER_IJK) {
                         if (mTargetState == STATE_PLAYING) {
                             start();
                         }
