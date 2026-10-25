@@ -603,6 +603,15 @@ public class IjkVideoView extends FrameLayout {
      * 获取当前解码器名称与池化状态
      */
     /**
+     * 当前流解析出来的音频编码（如 mp2 / aac / ac3 / eac3），未解析到返回 null。
+     * 用途：Exo 内核只支持一部分音频编码，MP2/AC3 这类切过去会没声音。
+     */
+    public String getActiveAudioCodec() {
+        TsCodecDescriptor descriptor = mActiveCodecDescriptor;
+        return descriptor != null ? descriptor.audioCodec : null;
+    }
+
+    /**
      * 当前视频是否在用 FFmpeg 软解。
      * ijkplayer 遇到 profile 未知的 H.264 会主动禁用 MediaCodec（日志 "unknown profile: disabled"），
      * 这类流软解只有十几帧，需要上层自动切 Exo 内核。

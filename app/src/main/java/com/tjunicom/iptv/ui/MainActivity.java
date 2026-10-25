@@ -719,12 +719,12 @@ public class MainActivity extends AppCompatActivity {
         currentChannel = channel;
         fallbackToLocalProxyAttempted = false;
         forcedCoreFallbackAttempted = false;
-        // 4K 频道自动切 Exo（IJK 播 HEVC 4K 常回退 FFmpeg 软解，掉到 2fps）
+        // 只有"探测到需要换核"这一条路会切 Exo（forceExoOnce）。
+        // 不再按台名 4K 预切：Exo 1.5 不支持 MP2/AC3 音频，盲切会没声音。
         boolean forceExo4k = forceExoOnce
-                || (settings.isAutoExoFor4k()
+                && settings.isAutoExoFor4k()
                 && !auto4kExoDisabled
-                && IptvSettings.PLAYER_IJK == settings.getPlayerType()
-                && is4kChannel(channel));
+                && IptvSettings.PLAYER_IJK == settings.getPlayerType();
         forceExoOnce = false;
         videoView.setForcedPlayerType(forceExo4k ? IptvSettings.PLAYER_IJK_EXO : -1);
         settings.setLastChannelUrl(channel.getRawUrl());
@@ -805,6 +805,13 @@ public class MainActivity extends AppCompatActivity {
         // IJK 因 profile 未知把硬解禁掉、退回 FFmpeg 软解时也切 Exo（这类流只有十几帧）
         boolean softDecoded = videoView.isVideoSoftDecoded();
         if (!uhd && !softDecoded) {
+            return;
+        }
+        // Exo(1.5.11) 只稳妥支持 AAC；MP2/AC3/EAC3 切过去会静音，宁可保留声音用 IJK 软解
+        String audio = videoView.getActiveAudioCodec();
+        if (audio != null && !"aac".equalsIgnoreCase(audio)) {
+            android.util.Log.i("MainActivity", "skip Exo switch: audio " + audio + " not supported by Exo");
+            auto4kSwitchedUrl = url;
             return;
         }
         auto4kSwitchedUrl = url;
