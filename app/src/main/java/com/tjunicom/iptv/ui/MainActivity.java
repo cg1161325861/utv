@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean udpxyUnreachableInSession = false;
     private boolean forcedCoreFallbackAttempted = false;
     private boolean auto4kExoDisabled = false;
-    private boolean forceExoOnce = false;
+    private int forceCoreOnce = -1;   // >=0 时下一次播放强制用这个内核（一次性）
     private String auto4kSwitchedUrl = null;
     private long lastBackPressTimeMs = 0L;
     private final StringBuilder remoteNumberBuffer = new StringBuilder();
@@ -719,14 +719,14 @@ public class MainActivity extends AppCompatActivity {
         currentChannel = channel;
         fallbackToLocalProxyAttempted = false;
         forcedCoreFallbackAttempted = false;
-        // 只有"探测到需要换核"这一条路会切 Exo（forceExoOnce）。
-        // 不再按台名 4K 预切：Exo 1.5 不支持 MP2/AC3 音频，盲切会没声音。
-        boolean forceExo4k = forceExoOnce
+        // 只有"探测到需要换核"这一条路会临时换内核（forceCoreOnce），不按台名盲切
+        int forcedCore = forceCoreOnce;
+        forceCoreOnce = -1;
+        boolean applyForcedCore = forcedCore >= 0
                 && settings.isAutoExoFor4k()
                 && !auto4kExoDisabled
                 && IptvSettings.PLAYER_IJK == settings.getPlayerType();
-        forceExoOnce = false;
-        videoView.setForcedPlayerType(forceExo4k ? IptvSettings.PLAYER_IJK_EXO : -1);
+        videoView.setForcedPlayerType(applyForcedCore ? forcedCore : -1);
         settings.setLastChannelUrl(channel.getRawUrl());
         channelAdapter.setCurrentPlayingUrl(channel.getRawUrl());
 
@@ -807,17 +807,18 @@ public class MainActivity extends AppCompatActivity {
         if (!uhd && !softDecoded) {
             return;
         }
-        // Exo(1.5.11) 只稳妥支持 AAC；MP2/AC3/EAC3 切过去会静音，宁可保留声音用 IJK 软解
+        // 按音频选目标内核：
+        //  - AAC          → Exo（1.5.11 支持 AAC，硬解流畅）
+        //  - MP2/AC3/其他 → AndroidMediaPlayer 系统内核（Amlogic 的 MediaPlayer 能吃 MP2，
+        //                   实测 25fps 且有声音；Exo 这些音频会静音）
         String audio = videoView.getActiveAudioCodec();
-        if (audio != null && !"aac".equalsIgnoreCase(audio)) {
-            android.util.Log.i("MainActivity", "skip Exo switch: audio " + audio + " not supported by Exo");
-            auto4kSwitchedUrl = url;
-            return;
-        }
+        int targetCore = (audio == null || "aac".equalsIgnoreCase(audio))
+                ? IptvSettings.PLAYER_IJK_EXO
+                : IptvSettings.PLAYER_ANDROID_MEDIA;
         auto4kSwitchedUrl = url;
-        forceExoOnce = true;
-        android.util.Log.i("MainActivity", "auto switch to Exo (uhd=" + uhd + ", soft=" + softDecoded
-                + ", " + w + "x" + h + ")");
+        forceCoreOnce = targetCore;
+        android.util.Log.i("MainActivity", "auto switch core=" + targetCore + " (uhd=" + uhd
+                + ", soft=" + softDecoded + ", audio=" + audio + ", " + w + "x" + h + ")");
         playChannel(currentChannel);
     }
 

@@ -200,7 +200,7 @@
                 android:buttonTint="@color/md_theme_dark_primary"
                 android:focusable="true"
                 android:paddingHorizontal="8dp"
-                android:text="自动切 Exo 内核（4K/软解掉帧且音频为 AAC 时）"
+                android:text="自动选内核（掉帧时：AAC→Exo，MP2→系统播放器）"
                 android:textColor="@color/text_primary" />
 
             <CheckBox
