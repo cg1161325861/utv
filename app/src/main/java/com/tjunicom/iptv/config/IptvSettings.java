@@ -37,6 +37,7 @@ public class IptvSettings {
     private static final String KEY_OPENSLES_ENABLED = "opensles_enabled";
     private static final String KEY_RENDER_VIEW_TYPE = "render_view_type"; // 0: SurfaceView, 1: TextureView
     private static final String KEY_AUTO_4K_EXO = "auto_4k_exo";
+    private static final String KEY_USE_POOL = "use_pooled_downloader";
     private static final String KEY_ASPECT_RATIO = "aspect_ratio";
     private static final String KEY_INCLUDE_HISTORICAL = "include_historical_channels";
     private static final String KEY_ONLY_SHOW_AVAILABLE = "only_show_available";
@@ -123,6 +124,19 @@ public class IptvSettings {
 
     public void setAutoExoFor4k(boolean enabled) {
         prefs.edit().putBoolean(KEY_AUTO_4K_EXO, enabled).apply();
+    }
+
+    /**
+     * 是否使用自研池化下载器（StreamDownloaderPool）。
+     * 默认关闭：关闭时让 ijk 自己解封装，H.264 profile 能正常识别 → MediaCodec 硬解 25fps；
+     * 打开时切台更快、多一个 2MB 环形缓冲，但可能因 profile 未知退回 FFmpeg 软解（约 14fps）。
+     */
+    public boolean isUsePooledDownloader() {
+        return prefs.getBoolean(KEY_USE_POOL, false);
+    }
+
+    public void setUsePooledDownloader(boolean enabled) {
+        prefs.edit().putBoolean(KEY_USE_POOL, enabled).apply();
     }
 
     public int getAspectRatio() {

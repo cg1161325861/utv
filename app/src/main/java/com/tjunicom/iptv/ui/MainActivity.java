@@ -1232,6 +1232,7 @@ public class MainActivity extends AppCompatActivity {
         CheckBox cbMediaCodec = view.findViewById(R.id.cb_settings_mediacodec);
         CheckBox cbHevc = view.findViewById(R.id.cb_settings_hevc);
         CheckBox cbAuto4kExo = view.findViewById(R.id.cb_settings_auto_4k_exo);
+        CheckBox cbUsePool = view.findViewById(R.id.cb_settings_use_pool);
         CheckBox cbOpenSlEs = view.findViewById(R.id.cb_settings_opensles);
         CheckBox cbTextureView = view.findViewById(R.id.cb_settings_textureview);
         CheckBox cbAllChannels = view.findViewById(R.id.cb_settings_all_channels);
@@ -1259,6 +1260,7 @@ public class MainActivity extends AppCompatActivity {
         cbMediaCodec.setChecked(settings.isMediaCodecEnabled());
         cbHevc.setChecked(settings.isMediaCodecHevcEnabled());
         cbAuto4kExo.setChecked(settings.isAutoExoFor4k());
+        cbUsePool.setChecked(settings.isUsePooledDownloader());
         cbOpenSlEs.setChecked(settings.isOpenSlEsEnabled());
         cbTextureView.setChecked(settings.getRenderViewType() == IjkVideoView.RENDER_TEXTURE_VIEW);
         cbAllChannels.setChecked(settings.isIncludeAllRepoChannels());
@@ -1291,6 +1293,7 @@ public class MainActivity extends AppCompatActivity {
                     settings.setMediaCodecEnabled(cbMediaCodec.isChecked());
                     settings.setMediaCodecHevcEnabled(cbHevc.isChecked());
                     settings.setAutoExoFor4k(cbAuto4kExo.isChecked());
+                    settings.setUsePooledDownloader(cbUsePool.isChecked());
                     auto4kExoDisabled = false;
                     settings.setOpenSlEsEnabled(cbOpenSlEs.isChecked());
                     int renderType = cbTextureView.isChecked()

@@ -204,6 +204,18 @@
                 android:textColor="@color/text_primary" />
 
             <CheckBox
+                android:id="@+id/cb_settings_use_pool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_badge"
+                android:buttonTint="@color/md_theme_dark_primary"
+                android:focusable="true"
+                android:paddingHorizontal="8dp"
+                android:text="使用池化下载器（切台更快，但可能退软解）"
+                android:textColor="@color/text_primary" />
+
+            <CheckBox
                 android:id="@+id/cb_settings_opensles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

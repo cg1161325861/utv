@@ -269,7 +269,11 @@ public class IjkVideoView extends FrameLayout {
         try {
             Uri playbackUri = resolvePlaybackUri(mUri);
             String scheme = playbackUri.getScheme();
-            boolean useSeparatedPoolPipeline = (effectivePlayerType() == IptvSettings.PLAYER_IJK)
+            // 默认不走池化下载器：自研下载器会抢在 SPS 解析前建解码器，
+// 导致 ijk 报 "-99 unknown profile" 禁用 MediaCodec 退回软解（14fps）。
+            // 让 ijk 自己解封装时 profile 正常，可拿到 MediaCodec 硬解（25fps）。
+            boolean directIjk = !mSettings.isUsePooledDownloader();
+            boolean useSeparatedPoolPipeline = (effectivePlayerType() == IptvSettings.PLAYER_IJK) && !directIjk
                     && scheme != null
                     && (scheme.equalsIgnoreCase("http")
                     || scheme.equalsIgnoreCase("https")
@@ -915,10 +919,20 @@ public class IjkVideoView extends FrameLayout {
                 Log.i(TAG, "onPrepared IjkMediaPlayer audioDecoder=" + audioDec
                         + ", videoDecoder=" + videoDec);
                 if (TextUtils.isEmpty(audioDec) || "unknown".equalsIgnoreCase(audioDec)) {
-                    if (mActiveDownloader != null) {
-                        mHwAudioCompanion.startWithDownloader(mActiveDownloader, desc);
+                    // 只有杜比 (AC-3/E-AC-3) 才交给伴音引擎接管。
+                    // MP2/MP3/AAC 由 libijkffmpeg 自己解；若错误地交给伴音引擎，
+                    // 它会一直报 "Decode cycle error" 且 ijk 音频被 an=1 关掉 → 完全静音。
+                    boolean dolby = desc != null && desc.requiresHardwareAudioCompanion();
+                    if (dolby) {
+                        if (mActiveDownloader != null) {
+                            mHwAudioCompanion.startWithDownloader(mActiveDownloader, desc);
+                        } else {
+                            mHwAudioCompanion.start(mUri, mRawChannelUrl);
+                        }
                     } else {
-                        mHwAudioCompanion.start(mUri, mRawChannelUrl);
+                        mHwAudioCompanion.stop();
+                        Log.i(TAG, "audio decoder unknown, keep ijk audio (codec="
+                                + (desc != null ? desc.audioCodec : "?") + ")");
                     }
                 } else {
                     mHwAudioCompanion.stop();
